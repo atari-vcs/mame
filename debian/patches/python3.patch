@@ -1,0 +1,51 @@
+Author: Jordi Mallach <jordi@debian.org>
+Description: do not assume python points to python3.
+Origin: Debian
+Forwarded: no
+
+Index: mame/makefile
+===================================================================
+--- mame.orig/makefile
++++ mame/makefile
+@@ -451,7 +451,7 @@ endif
+ endif
+ 
+ ifndef PYTHON_EXECUTABLE
+-PYTHON := python
++PYTHON := python3
+ else
+ PYTHON := $(PYTHON_EXECUTABLE)
+ endif
+@@ -1002,12 +1002,12 @@ ifeq ($(OS),windows)
+ ifeq (posix,$(SHELLTYPE))
+ GCC_VERSION      := $(shell $(TOOLCHAIN)$(subst @,,$(CC)) -dumpversion 2> /dev/null)
+ CLANG_VERSION    := $(shell $(TOOLCHAIN)$(subst @,,$(CC)) --version 2> /dev/null| head -n 1 | grep clang | sed "s/^.*[^0-9]\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*$$/\1/" | head -n 1)
+-PYTHON_AVAILABLE := $(shell $(PYTHON) --version > /dev/null 2>&1 && echo python)
++PYTHON_AVAILABLE := $(shell $(PYTHON) --version > /dev/null 2>&1 && echo python3)
+ GIT_AVAILABLE    := $(shell git --version > /dev/null 2>&1 && echo git)
+ else
+ GCC_VERSION      := $(shell $(TOOLCHAIN)$(subst @,,$(CC)) -dumpversion 2> NUL)
+ CLANG_VERSION    := $(shell $(TOOLCHAIN)$(subst @,,$(CC)) --version 2> NUL| head -n 1 | grep clang | sed "s/^.*[^0-9]\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*$$/\1/" | head -n 1)
+-PYTHON_AVAILABLE := $(shell $(PYTHON) --version > NUL 2>&1 && echo python)
++PYTHON_AVAILABLE := $(shell $(PYTHON) --version > NUL 2>&1 && echo python3)
+ GIT_AVAILABLE    := $(shell git --version > NUL 2>&1 && echo git)
+ endif
+ ifdef MSBUILD
+@@ -1050,7 +1050,7 @@ CLANG_VERSION    := $(shell $(TOOLCHAIN)
+ else
+ CLANG_VERSION    := $(shell $(TOOLCHAIN)$(subst @,,$(CC))  --version  2> /dev/null | head -n 1 | grep -e 'version [0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?' -o | grep -e '[0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?' -o | tail -n 1)
+ endif
+-PYTHON_AVAILABLE := $(shell $(PYTHON) --version > /dev/null 2>&1 && echo python)
++PYTHON_AVAILABLE := $(shell $(PYTHON) --version > /dev/null 2>&1 && echo python3)
+ GIT_AVAILABLE := $(shell git --version > /dev/null 2>&1 && echo git)
+ endif
+ 
+@@ -1071,7 +1071,7 @@ endif
+ endif
+ endif
+ 
+-ifneq ($(PYTHON_AVAILABLE),python)
++ifneq ($(PYTHON_AVAILABLE),python3)
+ $(error Python is not available in path)
+ endif
+ 

@@ -1,0 +1,27 @@
+Description: Fix endianess issue on ppc64el
+Upstream fixed it in a later version of bx.
+Pulling the fix in this embedded bx.
+Origin: upstream
+Bug: https://github.com/bkaradzic/bx/pull/199
+Applied-Upstream: https://github.com/bkaradzic/bx/commit/77d6f6080086c2cffbca7746dcce6af489a33589
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/3rdparty/bx/include/bx/platform.h
++++ b/3rdparty/bx/include/bx/platform.h
+@@ -133,8 +133,14 @@
+ #endif //
+ 
+ #if BX_CPU_PPC
+-#	undef  BX_CPU_ENDIAN_BIG
+-#	define BX_CPU_ENDIAN_BIG 1
++// _LITTLE_ENDIAN exists on ppc64le.
++#	if _LITTLE_ENDIAN
++#		undef  BX_CPU_ENDIAN_LITTLE
++#		define BX_CPU_ENDIAN_LITTLE 1
++#	else
++#		undef  BX_CPU_ENDIAN_BIG
++#		define BX_CPU_ENDIAN_BIG 1
++#	endif
+ #else
+ #	undef  BX_CPU_ENDIAN_LITTLE
+ #	define BX_CPU_ENDIAN_LITTLE 1

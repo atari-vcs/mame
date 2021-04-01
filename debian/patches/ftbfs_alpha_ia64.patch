@@ -1,0 +1,43 @@
+Description: Do not pass -m64 to alpha or ia64 builds.
+Author: Jordi Mallach <jordi@debian.org>
+Forwarded: no
+
+Index: mame/makefile
+===================================================================
+--- mame.orig/makefile
++++ mame/makefile
+@@ -157,6 +157,12 @@ endif
+ ifneq ($(filter alpha,$(UNAME_P)),)
+ PLATFORM := alpha
+ endif
++ifneq ($(filter ia64,$(UNAME_M)),)
++PLATFORM := ia64
++endif
++ifneq ($(filter ia64,$(UNAME_P)),)
++PLATFORM := ia64
++endif
+ ifneq ($(filter arm%,$(UNAME_M)),)
+ PLATFORM := arm
+ endif
+@@ -301,6 +307,12 @@ TARGETOS := $(OS)
+ # should be passed to gcc when building genie
+ #-------------------------------------------------
+ 
++ifeq ($(PLATFORM),alpha)
++MPARAM :=
++else
++ifeq ($(PLATFORM),ia64)
++MPARAM :=
++else
+ ifeq ($(ARCHITECTURE),_x86)
+ MPARAM := -m32
+ else
+@@ -310,6 +322,8 @@ else
+ MPARAM :=
+ endif
+ endif
++endif
++endif
+ 
+ ARCHITECTURE := _x86
+ 

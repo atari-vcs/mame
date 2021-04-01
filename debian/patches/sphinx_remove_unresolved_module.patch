@@ -1,0 +1,17 @@
+Author: Cesare Falco <c.falco@ubuntu.com>
+Description: Remove sphinxcontrib.rsvgconverter, which
+ seems nowhere to be found (at least on Ubuntu).
+Forwarded: no
+
+Index: mame/docs/source/conf.py
+===================================================================
+--- mame.orig/docs/source/conf.py
++++ mame/docs/source/conf.py
+@@ -32,7 +32,6 @@ extensions = [
+     'sphinx.ext.autodoc',
+     'sphinx.ext.mathjax',
+     'sphinx.ext.viewcode',
+-    'sphinxcontrib.rsvgconverter',
+     'edit_on_github'
+ ]
+ 
