@@ -1,3 +1,10 @@
+mame (0.230+dfsg.1-1+apertis0) atari; urgency=medium
+
+  * Import from Debian sid.
+  * Set component to development.
+
+ -- Apertis package maintainers <packagers@lists.apertis.org>  Tue, 20 Jul 2021 15:00:35 +0000
+
 mame (0.230+dfsg.1-1) unstable; urgency=medium
 
   [ Cesare Falco ]
