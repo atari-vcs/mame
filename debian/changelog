@@ -1,3 +1,11 @@
+mame (0.230+dfsg.1-1+apertis0ata1) atari; urgency=medium
+
+  * Build for atari:
+    + Don't build with portaudio19 or portmidi
+    + Set debhelper-compat to 12
+
+ -- Christopher Obbard <chris.obbard@collabora.com>  Thu, 22 Jul 2021 13:51:38 +0100
+
 mame (0.230+dfsg.1-1+apertis0) atari; urgency=medium
 
   * Import from Debian sid.
