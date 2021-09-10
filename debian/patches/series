@@ -8,3 +8,7 @@ kfreebsd_dirent.h_path.patch
 sphinx_remove_unresolved_module.patch
 fix-922619.patch
 #fix-bx-ppc64el.patch #accepted upstream
+
+# Atari patches
+atari/classic-controller-start-select-button-mapping.patch
+atari/classic-controller-do-not-listen-to-axis.patch
