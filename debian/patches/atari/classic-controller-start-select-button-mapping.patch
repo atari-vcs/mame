@@ -14,7 +14,7 @@ Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
  1 file changed, 38 insertions(+), 3 deletions(-)
 
 diff --git a/src/osd/modules/input/input_sdl.cpp b/src/osd/modules/input/input_sdl.cpp
-index 102987b..d04db7b 100644
+index 102987b..a60cc2e 100644
 --- a/src/osd/modules/input/input_sdl.cpp
 +++ b/src/osd/modules/input/input_sdl.cpp
 @@ -345,6 +345,37 @@ static int lookup_sdl_code(const char *scode)
@@ -30,7 +30,7 @@ index 102987b..d04db7b 100644
 +	int32_t new_button = button;
 +
 +	// mapping for atari classic controller
-+	if (!strcmp(joystick, "Classic Controller"))
++	if (!strcmp(joystick, "Classic Controller") || !strcmp(joystick, "Atari Classic Controller"))
 +	{
 +		switch (button)
 +		{

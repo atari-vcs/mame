@@ -9,19 +9,23 @@ controller axis.
 
 Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
 ---
- src/osd/modules/input/input_sdl.cpp | 4 ++++
- 1 file changed, 4 insertions(+)
+ src/osd/modules/input/input_sdl.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/src/osd/modules/input/input_sdl.cpp b/src/osd/modules/input/input_sdl.cpp
-index d04db7b..6cf7a15 100644
+index a60cc2e..ece94f6 100644
 --- a/src/osd/modules/input/input_sdl.cpp
 +++ b/src/osd/modules/input/input_sdl.cpp
-@@ -1107,6 +1107,10 @@ public:
+@@ -1107,6 +1107,14 @@ public:
  			{
  				input_item_id itemid;
  
-+				// Atari classic controller - do not add joystick axis
++				// Atari classic controller connected over Bluetooth - do not add joystick axis
 +				if (!strcmp(SDL_JoystickNameForIndex(physical_stick), "Classic Controller"))
++					break;
++
++				// Atari classic controller connected over USB - do not add joystick axis
++				if (!strcmp(SDL_JoystickNameForIndex(physical_stick), "Atari Classic Controller"))
 +					break;
 +
  				if (axis < INPUT_MAX_AXIS)
