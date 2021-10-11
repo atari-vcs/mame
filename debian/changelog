@@ -1,3 +1,15 @@
+mame (0.230+dfsg.1-1+apertis0ata3) atari; urgency=medium
+
+  * Rework mappings to work when Classic Controller connected over USB
+
+ -- Christopher Obbard <chris.obbard@collabora.com>  Wed, 15 Sep 2021 16:15:12 +0100
+
+mame (0.230+dfsg.1-1+apertis0ata2) atari; urgency=medium
+
+  * Add patches for Atari Classic Controller mappings
+
+ -- Christopher Obbard <chris.obbard@collabora.com>  Fri, 10 Sep 2021 16:49:21 +0100
+
 mame (0.230+dfsg.1-1+apertis0ata1) atari; urgency=medium
 
   * Build for atari:

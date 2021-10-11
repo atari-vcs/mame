@@ -1,0 +1,33 @@
+From: Christopher Obbard <chris.obbard@collabora.com>
+Date: Fri, 10 Sep 2021 16:42:44 +0100
+Subject: Do not add listen to Classic Controller axis
+
+The axis on the Classic Controller is set to rotation; mame tries
+to connect this to player movement which causes all kinds of
+issues with the player's movement. So let's ignore the classic
+controller axis.
+
+Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+---
+ src/osd/modules/input/input_sdl.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/osd/modules/input/input_sdl.cpp b/src/osd/modules/input/input_sdl.cpp
+index a60cc2e..ece94f6 100644
+--- a/src/osd/modules/input/input_sdl.cpp
++++ b/src/osd/modules/input/input_sdl.cpp
+@@ -1107,6 +1107,14 @@ public:
+ 			{
+ 				input_item_id itemid;
+ 
++				// Atari classic controller connected over Bluetooth - do not add joystick axis
++				if (!strcmp(SDL_JoystickNameForIndex(physical_stick), "Classic Controller"))
++					break;
++
++				// Atari classic controller connected over USB - do not add joystick axis
++				if (!strcmp(SDL_JoystickNameForIndex(physical_stick), "Atari Classic Controller"))
++					break;
++
+ 				if (axis < INPUT_MAX_AXIS)
+ 					itemid = (input_item_id)(ITEM_ID_XAXIS + axis);
+ 				else if (axis < INPUT_MAX_AXIS + INPUT_MAX_ADD_ABSOLUTE)

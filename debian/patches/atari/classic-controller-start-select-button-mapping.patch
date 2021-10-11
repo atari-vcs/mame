@@ -1,0 +1,89 @@
+From: Christopher Obbard <chris.obbard@collabora.com>
+Date: Fri, 10 Sep 2021 10:17:37 +0100
+Subject: Map Classic Controller START and SELECT buttons
+
+Unfortunately MAME uses a rather primitive joystick mapping scheme:
+each button is allocated a number. Each number is mapped to a function
+in the emulator, the Classic Controller has different numbers mapped
+to its start and select buttons. So let's make the start and select
+mappings the same as the Modern Controller.
+
+Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+---
+ src/osd/modules/input/input_sdl.cpp | 41 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
+
+diff --git a/src/osd/modules/input/input_sdl.cpp b/src/osd/modules/input/input_sdl.cpp
+index 102987b..a60cc2e 100644
+--- a/src/osd/modules/input/input_sdl.cpp
++++ b/src/osd/modules/input/input_sdl.cpp
+@@ -345,6 +345,37 @@ static int lookup_sdl_code(const char *scode)
+ 	return -1;
+ }
+ 
++//============================================================
++//  lookup_custom_joystick_button
++//============================================================
++
++static int lookup_custom_joystick_button(const char *joystick, int32_t button)
++{
++	int32_t new_button = button;
++
++	// mapping for atari classic controller
++	if (!strcmp(joystick, "Classic Controller") || !strcmp(joystick, "Atari Classic Controller"))
++	{
++		switch (button)
++		{
++			/* back */
++			case 2:
++				new_button = 6;
++				break;
++
++			/* select */
++			case 3:
++				new_button = 7;
++				break;
++
++			default:
++				break;
++		}
++	}
++
++	return new_button;
++}
++
+ //============================================================
+ //  sdl_device
+ //============================================================
+@@ -622,6 +653,8 @@ public:
+ 
+ 	void process_event(SDL_Event &sdlevent) override
+ 	{
++		int button;
++
+ 		switch (sdlevent.type)
+ 		{
+ 		case SDL_JOYAXISMOTION:
+@@ -671,8 +704,9 @@ public:
+ 
+ 		case SDL_JOYBUTTONDOWN:
+ 		case SDL_JOYBUTTONUP:
+-			if (sdlevent.jbutton.button < MAX_BUTTONS)
+-				joystick.buttons[sdlevent.jbutton.button] = (sdlevent.jbutton.state == SDL_PRESSED) ? 0x80 : 0;
++			button = lookup_custom_joystick_button(SDL_JoystickNameForIndex(sdlevent.jbutton.which), sdlevent.jbutton.button);
++			if (button < MAX_BUTTONS)
++				joystick.buttons[button] = (sdlevent.jbutton.state == SDL_PRESSED) ? 0x80 : 0;
+ 			break;
+ 		}
+ 	}
+@@ -1087,8 +1121,9 @@ public:
+ 			// loop over all buttons
+ 			if (SDL_JoystickNumButtons(joy) > MAX_BUTTONS)
+ 				osd_printf_verbose("Joystick:   ...  Has %d buttons which exceeds supported %d buttons\n", SDL_JoystickNumButtons(joy), MAX_BUTTONS);
+-			for (int button = 0; (button < MAX_BUTTONS) && (button < SDL_JoystickNumButtons(joy)); button++)
++			for (int i = 0; (i < MAX_BUTTONS) && (i < SDL_JoystickNumButtons(joy)); i++)
+ 			{
++				int button = lookup_custom_joystick_button(SDL_JoystickNameForIndex(physical_stick), i);
+ 				input_item_id itemid;
+ 
+ 				devinfo->joystick.buttons[button] = 0;
